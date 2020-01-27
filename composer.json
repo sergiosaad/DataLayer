@@ -1,0 +1,26 @@
+{
+  "name": "sergiosaad/datalayer",
+  "description": "PHP DatabaseLayer to work with MVC projects based on DaviW framework",
+  "keywords": [
+    "sergiosaad",
+    "datalayer",
+    "daviw"
+  ],
+  "homepage": "http://www.saads.com.br",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Sergio Saad",
+      "email": "sergiosaad@gmail.com",
+      "role": "owner"
+    }
+  ],
+  "require": {
+    "php": "^7.2"
+  },
+  "autoload": {
+    "psr-4": {
+      "SergioSaad\\DataLayer\\": "src"
+    }
+  }
+}
