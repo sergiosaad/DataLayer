@@ -3,7 +3,7 @@
 require 'db_config.php';
 require '../vendor/autoload.php';
 
-use CoffeeCode\DataLayer\Connect;
+use SergioSaad\DataLayer\Connect;
 
 /*
  * GET PDO instance AND errors

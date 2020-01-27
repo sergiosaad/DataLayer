@@ -2,7 +2,7 @@
 
 namespace Example\Models;
 
-use CoffeeCode\DataLayer\DataLayer;
+use SergioSaad\DataLayer\DataLayer;
 
 /**
  * Class User

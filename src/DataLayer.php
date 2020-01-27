@@ -9,7 +9,7 @@ use stdClass;
 
 /**
  * Class DataLayer
- * @package CoffeeCode\DataLayer
+ * @package SergioSaad\DataLayer
  */
 abstract class DataLayer
 {

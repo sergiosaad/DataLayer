@@ -7,7 +7,7 @@ use PDOException;
 
 /**
  * Class Connect
- * @package CoffeeCode\DataLayer
+ * @package SergioSaad\DataLayer
  */
 class Connect
 {
