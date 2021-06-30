@@ -15,8 +15,8 @@ use Example\Models\User;
 print "new user model";
 
 $user = new User;
-$user->first_name = "Robson";
-$user->last_name = "V. Leite";
+$user->first_name = "Daniel";
+$user->last_name = "José";
 $user->genre = "m";
 $user->save();
 
@@ -27,7 +27,7 @@ var_dump($user);
  */
 print "update user";
 
-$name = ["Robson", "Kaue", "Gustavo", "João"];
+$name = ["José", "Daniel", "Ferreira", "Rosa"];
 
 $user = (new User())->findById(10000);
 
@@ -45,7 +45,7 @@ if ($user) {
 print "addr model";
 
 $addr = new Address;
-$addr->address = "Rua Nome Da Rua 001";
+$addr->address = "10, rue Cathedrale";
 $address = $addr->save();
 
 if (!$address) {
