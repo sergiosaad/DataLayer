@@ -26,14 +26,22 @@ class Domain
 		foreach ($this->domains as $key => $label) {
 			$selected = $key == $this->value ? "Y" : "";
 			$default = $key == $this->default ? "Y" : "";
-			array_push($domains, ["key"=>$key,"label"=>$label,"selected"=>$selected,"default"=>$default]);
+			$obj = new \stdClass();
+			$obj->key = $key;
+			$obj->label = $label;
+			$obj->isSelected = $selected;
+			$obj->isDefault = $default;
+			$domains[$key] = $obj;
 		}
 		return $domains;
 	}
 
     public function __get($name)
     {
-        return ($this->domains[$name] ?? null);
+        if($name == "label") {
+			$name = $this->value;
+		}
+		return ($this->domains[$name] ?? null);
     }
 
 

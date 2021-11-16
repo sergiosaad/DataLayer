@@ -82,8 +82,10 @@ abstract class DataLayer
 
         $this->data->$name = $value;
 
-		if(property_exists($this->domain,$name)) {
-			$this->domain->$name->value = $value;
+		if(\is_object($this->domain)) {
+			if(property_exists($this->domain,$name)) {
+				$this->domain->$name->value = $value;
+			}
 		}
     }
 
