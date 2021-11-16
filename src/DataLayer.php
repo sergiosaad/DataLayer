@@ -2,10 +2,10 @@
 
 namespace SergioSaad\DataLayer;
 
-use Exception;
 use PDO;
-use PDOException;
 use stdClass;
+use Exception;
+use PDOException;
 
 /**
  * Class DataLayer
@@ -27,31 +27,35 @@ abstract class DataLayer
     /** @var string $timestamps control created and updated at */
     private $timestamps;
 
+	
     /** @var string */
     protected $statement;
-
+	
     /** @var string */
     protected $params;
-
+	
     /** @var string */
     protected $group;
-
+	
     /** @var string */
     protected $order;
-
+	
     /** @var int */
     protected $limit;
-
+	
     /** @var int */
     protected $offset;
-
+	
     /** @var \PDOException|null */
     protected $fail;
-
+	
     /** @var object|null */
     protected $data;
+	
+    /** @var stdClass $domain holds fields declared as Domains */
+    public $domain;
 
-    /**
+	/**
      * DataLayer constructor.
      * @param string $entity
      * @param array $required
@@ -77,6 +81,10 @@ abstract class DataLayer
         }
 
         $this->data->$name = $value;
+
+		if(property_exists($this->domain,$name)) {
+			$this->domain->$name->value = $value;
+		}
     }
 
     /**
@@ -293,4 +301,16 @@ abstract class DataLayer
 
         return $safe;
     }
+
+
+	public function setDomain($field, array $options) {
+		if(!isset($this->domain)) {
+			$this->domain = new \stdClass();
+		}
+		$this->domain->$field = new Domain($options);
+		if(isset($this->data->$field)) {
+			$this->domain->$field->value = $this->data->$field;
+		}
+	}
+
 }
