@@ -20,8 +20,12 @@ trait CrudTrait
     protected function create(array $data): ?int
     {
         if ($this->timestamps) {
-            $data["created_at"] = (new DateTime("now"))->format("Y-m-d H:i:s");
-            $data["updated_at"] = $data["created_at"];
+            //$data["created_at"] = (new DateTime("now"))->format("Y-m-d H:i:s");
+            //$data["updated_at"] = $data["created_at"];
+            $data["dt_created"] = (new DateTime("now"))->format("Y-m-d H:i:s");
+            if(!key_exists("nm_created",$data)){
+                $data["nm_created"] = "automatic";
+            }
         }
 
         try {
@@ -48,7 +52,11 @@ trait CrudTrait
     protected function update(array $data, string $terms, string $params): ?int
     {
         if ($this->timestamps) {
-            $data["updated_at"] = (new DateTime("now"))->format("Y-m-d H:i:s");
+            //$data["updated_at"] = (new DateTime("now"))->format("Y-m-d H:i:s");
+            $data["dt_edited"] = (new DateTime("now"))->format("Y-m-d H:i:s");
+            if(!key_exists("nm_edited",$data)){
+                $data["nm_edited"] = "automatic - not informed";
+            }
         }
 
         try {
