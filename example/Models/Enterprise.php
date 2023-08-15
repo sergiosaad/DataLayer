@@ -19,9 +19,11 @@ class Enterprise extends DataLayer
             "nm_enterprise",
         ];
 
-        //field tp_enterprise, varchar(2), with the following domain: P:Privada | G:Governo | I:Indefinido 	, where the default is I.
-
         parent::__construct("tb_enterprise", $requiredFields, 'co_seq_enterprise',true);
+        
+        $this->newParent("co_enterprise", "\Example\Models\Enterprise","enterprise");
+        
+        //field tp_enterprise, varchar(2), with the following domain: P:Privada | G:Governo | I:Indefinido 	, where the default is I.
     }
 }
 

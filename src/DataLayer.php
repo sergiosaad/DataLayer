@@ -51,7 +51,13 @@ abstract class DataLayer
 	
     /** @var object|null */
     protected $data;
-	
+
+    /** @var array|null $parentsList holds the list of parents models for this model*/
+    public $parentsList;
+
+    /** @var object|null $parents holds the parents objects*/
+    public $parents;
+
     /** @var stdClass $domain holds fields declared as Domains */
     public $domain;
 
@@ -306,6 +312,46 @@ abstract class DataLayer
         unset($safe[$this->primary]);
 
         return $safe;
+    }
+
+    /**
+     * @param string $model
+     * @param string $co_field
+     * @return array|mixed|null
+     */
+    protected function newParent(string $co_field , string $model, string $alias="" ) 
+    {
+        if(!isset($this->parentsList)) {
+			$this->parentsList = [];
+		}
+        $newParent = new stdClass();
+        $newParent->co_field = $co_field;
+        $newParent->model = $model;
+        $newParent->alias = $alias ? $alias : $co_field;
+        array_push($this->parentsList,$newParent);
+    }
+
+    public function fetchParents() {
+        $primary = $this->primary;
+        if(!($this->$primary>0)){
+            return;
+        }
+        if(!isset($this->parentsList)) {
+			return;
+		}
+        foreach ($this->parentsList as $parent) {
+            $model = $parent->model;
+            $co_field = $parent->co_field;
+            $alias = $parent->alias;
+            if($this->$co_field>0) {
+                $model = new $model;
+                $model = $model->findById($this->$co_field);
+                if(!isset($this->parents)) {
+                    $this->parents = new stdClass();
+                }
+                $this->parents->$alias = $model;
+            }
+        }
     }
 
 
