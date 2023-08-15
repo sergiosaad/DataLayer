@@ -200,8 +200,9 @@ abstract class DataLayer
     {
         try {
             $stmt = Connect::getInstance()->prepare($this->statement . $this->group . $this->order . $this->limit . $this->offset);
-            parse_str($this->params, $arrayParams);
-            $stmt->execute($arrayParams);
+            $stmt->execute($this->params);
+            // parse_str($this->params, $arrayParams);
+            // $stmt->execute($arrayParams);
 
             if (!$stmt->rowCount()) {
                 return null;
@@ -224,8 +225,9 @@ abstract class DataLayer
     public function count(): int
     {
         $stmt = Connect::getInstance()->prepare($this->statement);
-        parse_str($this->params, $arrayParams);
-        $stmt->execute($arrayParams);
+        $stmt->execute($this->params);
+        // parse_str($this->params, $arrayParams);
+        // $stmt->execute($arrayParams);
         return $stmt->rowCount();
     }
 

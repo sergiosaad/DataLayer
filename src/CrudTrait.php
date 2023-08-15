@@ -22,8 +22,10 @@ trait CrudTrait
         if ($this->timestamps) {
             $data["dt_created"] = (new DateTime("now"))->format("Y-m-d H:i:s");
             if(!key_exists("nm_created",$data)){
-                $data["nm_created"] = "automatic";
+                $data["nm_created"] = "automatic2";
+                //$this->data->nm_created = "automatic2";
             }
+
         }
 
         try {
@@ -51,9 +53,8 @@ trait CrudTrait
     {
         if ($this->timestamps) {
             $data["dt_edited"] = (new DateTime("now"))->format("Y-m-d H:i:s");
-            if(!key_exists("nm_edited",$data)){
-                $data["nm_edited"] = "automatic - not informed";
-            }
+            $data["nm_edited"] = key_exists("nm_edited",$data) ? $data["nm_edited"] : "";
+            $data["nm_edited"] = $data["nm_edited"]=="" ? "automatic - not informed" : $data["nm_edited"];
         }
 
         try {
@@ -83,8 +84,10 @@ trait CrudTrait
         try {
             $stmt = Connect::getInstance()->prepare("DELETE FROM {$this->entity} WHERE {$terms}");
             if ($params) {
-                parse_str($params, $arrayParams);
-                $stmt->execute($arrayParams);
+                parse_str($params, $params);
+                $stmt->execute($params);
+                //parse_str($params, $arrayParams);
+                //$stmt->execute($arrayParams);
                 return true;
             }
 
