@@ -331,6 +331,9 @@ abstract class DataLayer
         array_push($this->parentsList,$newParent);
     }
 
+     /**
+     * 
+     */
     public function fetchParents() {
         $primary = $this->primary;
         if(!($this->$primary>0)){
