@@ -53,13 +53,16 @@ abstract class DataLayer
     protected $data;
 
     /** @var array|null $parentsList holds the list of parents models for this model*/
-    public $parentsList;
+    private $parentsList;
 
     /** @var object|null $parents holds the parents objects*/
     public $parents;
 
-    /** @var stdClass $domain holds fields declared as Domains */
-    public $domain;
+    /** @var array|null $domainList holds the domains specifications*/
+    private $domainList;
+
+    /** @var object|null $domainValue holds the descriptive values of each domain*/
+    public $domainValue;
 
 	/**
      * DataLayer constructor.
@@ -87,12 +90,9 @@ abstract class DataLayer
         }
 
         $this->data->$name = $value;
+        
+        $this->refreshDomainsValues();
 
-		if(\is_object($this->domain)) {
-			if(property_exists($this->domain,$name)) {
-				$this->domain->$name->value = $value;
-			}
-		}
     }
 
     /**
@@ -327,14 +327,15 @@ abstract class DataLayer
         $newParent = new stdClass();
         $newParent->co_field = $co_field;
         $newParent->model = $model;
-        $newParent->alias = $alias ? $alias : $co_field;
+        $newParent->alias = $alias=="" ? $co_field : $alias;
         array_push($this->parentsList,$newParent);
     }
 
      /**
      * 
      */
-    public function fetchParents() {
+    public function fetchParents() 
+    {
         $primary = $this->primary;
         if(!($this->$primary>0)){
             return;
@@ -357,15 +358,71 @@ abstract class DataLayer
         }
     }
 
+    /**
+     * @param string $model
+     * @param string $co_field
+     * @return array|mixed|null
+     */
+    protected function newDomain(string $field , array $domains, string $default="" ) 
+    {
+        if(!isset($this->domainList)) {
+			$this->domainList = [];
+		}
+        $newDomain = new stdClass();
+        $newDomain->field = $field;
+        $newDomain->options = $domains;
+        $newDomain->default = $default; 
+        $this->domainList[$field] = $newDomain;
+        // array_push($this->domainList,$newDomain);
 
-	public function setDomain($field, array $options) {
-		if(!isset($this->domain)) {
-			$this->domain = new \stdClass();
-		}
-		$this->domain->$field = new Domain($options);
-		if(isset($this->data->$field)) {
-			$this->domain->$field->value = $this->data->$field;
-		}
-	}
+        if(!isset($this->$field)){
+            $this->$field = $default;
+        }
+
+        $this->refreshDomainsValues();
+    }
+
+    /**
+     * @param string $field
+     * @return array|null
+     */    
+    public function listDomain(string $field): ?array
+    {
+        $domain = $this->domainList[$field];
+        $list = [];
+        foreach ($domain->options as $key=>$value) {
+            $item = new stdClass();
+            $item->key = $key;
+            $item->description = $value;
+            $item->selected = $this->$field == $key ? "Y" : "";
+            $list[$key]=$item;
+        }
+        return $list;
+    }
+
+    /**
+     * 
+     * 
+     */        
+    protected function refreshDomainsValues()
+    {
+        $this->domainValue = new stdClass();
+        if(!isset($this->domainList)){
+            return;
+        }
+        foreach ($this->domainList as $domain) {
+            $field = $domain->field;
+            if(isset($this->$field)) {
+                foreach ($domain->options as $key => $value) {
+                    if($this->$field == $key) {
+                        $this->domainValue->$field = $value;
+                    }
+                }
+            }
+        }
+    }
+
+
+
 
 }

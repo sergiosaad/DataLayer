@@ -23,7 +23,13 @@ class Enterprise extends DataLayer
         
         $this->newParent("co_enterprise", "\Example\Models\Enterprise","enterprise");
         
-        //field tp_enterprise, varchar(2), with the following domain: P:Privada | G:Governo | I:Indefinido 	, where the default is I.
+        $tp_enterprise_domain =[
+            "P"=>"Private",
+            "G"=>"Government",
+            "U"=>"Undefined",
+        ];
+        $this->newDomain("tp_enterprise",$tp_enterprise_domain,"U");
+
     }
 }
 
@@ -34,6 +40,7 @@ class Enterprise extends DataLayer
 //     `co_enterprise` INT NULL,
 //     `nm_enterprise` VARCHAR(80) NOT NULL,
 //     `ds_enterprise` VARCHAR(400) NULL,
+//     `tp_enterprise` VARCHAR(2) NULL DEFAULT 'I' COMMENT 'P:Privada | G:Governo | I:Indefinido',
 //     `lk_enterprise_logo` VARCHAR(400) NULL,
 //     `lk_enterprise_thumb` VARCHAR(400) NULL,
 //     `lk_enterprise_skin` VARCHAR(400) NULL,
@@ -50,3 +57,5 @@ class Enterprise extends DataLayer
 //       ON DELETE NO ACTION
 //       ON UPDATE NO ACTION)
 //   ENGINE = InnoDB
+
+
