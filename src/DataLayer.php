@@ -395,7 +395,8 @@ abstract class DataLayer
             $item->key = $key;
             $item->description = $value;
             $item->selected = $this->$field == $key ? "Y" : "";
-            $list[$key]=$item;
+            array_push($list, $item);
+            // $list[$key]=$item;
         }
         return $list;
     }

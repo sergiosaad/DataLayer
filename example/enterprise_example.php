@@ -55,5 +55,8 @@ foreach ($enterprise1->listDomain("tp_enterprise") as $option) {
         print_r("selected = {$option->description}\n\n");
     }
 }
+$enterprise1->tp_enterprise="P";
+print_r("id = {$enterprise1->tp_enterprise}\n\n");
+print_r("selected = {$enterprise1->domainValue->tp_enterprise}\n\n");
 
 
